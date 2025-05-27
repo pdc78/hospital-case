@@ -1,0 +1,49 @@
+@Hospital.WebApi_HostAddress = http://localhost:5082
+
+POST {{Hospital.WebApi_HostAddress}}/appointments
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Cpr": "123456-7890",
+    "PatientName": "John Doe",
+    "AppointmentDate": "2025-05-29T10:00:00",
+    "Department": "Physiotherapy",
+    "DoctorName": "Dr. Smith"
+}
+
+### Schedule an appointment
+POST {{Hospital.WebApi_HostAddress}}/appointments
+Content-Type: application/json
+
+{
+  "cpr": "123456-7890",
+  "patientName": "John Doe",
+  "appointmentDate": "2025-06-01T10:00:00",
+  "department": "Radiology",
+  "doctorName": "Dr. Smith"
+}
+
+### Another appointment in a different department
+POST {{Hospital.WebApi_HostAddress}}/appointments
+Content-Type: application/json
+
+{
+  "cpr": "987654-3210",
+  "patientName": "Jane Smith",
+  "appointmentDate": "2025-06-02T14:30:00",
+  "department": "Physiotherapy",
+  "doctorName": "Dr. Adams"
+}
+
+### Invalid appointment (missing referral or approval)
+POST {{Hospital.WebApi_HostAddress}}/appointments
+Content-Type: application/json
+
+{
+  "cpr": "111111-2222",
+  "patientName": "Alice Johnson",
+  "appointmentDate": "2025-06-03T09:00:00",
+  "department": "Cardiology",
+  "doctorName": "Dr. Brown"
+}
