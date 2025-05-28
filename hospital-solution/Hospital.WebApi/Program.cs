@@ -1,4 +1,3 @@
-using Hospital.Application;
 using Hospital.Application.Configurations;
 using Hospital.Application.Factories;
 using Hospital.Application.Repositories;
@@ -6,8 +5,8 @@ using Hospital.Application.Services;
 using Hospital.Application.Services.Interfaces;
 using Hospital.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Hospital.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Hospital.Application.Data;
 
 internal class Program
 {

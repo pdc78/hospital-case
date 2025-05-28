@@ -1,4 +1,5 @@
-﻿using Hospital.Application.Entities;
+﻿using Hospital.Application.Data;
+using Hospital.Application.Entities;
 
 namespace Hospital.Application.Repositories;
 
