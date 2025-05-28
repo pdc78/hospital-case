@@ -32,7 +32,7 @@ Content-Type: application/json
   "cpr": "987654-3210",
   "patientName": "Jane Smith",
   "appointmentDate": "2025-06-02T14:30:00",
-  "department": "Physiotherapy",
+  "department": "GeneralPractice",
   "doctorName": "Dr. Adams"
 }
 

@@ -1,4 +1,5 @@
 using Hospital.Application;
+using Hospital.Application.Factories;
 using Hospital.Application.Rules;
 using Hospital.WebApi.Configurations;
 using Hospital.WebApi.Extensions;
@@ -30,14 +31,14 @@ internal class Program
         builder.Services.AddSingleton<AssignedToGpRule>();
 
         // Register the factory
-        builder.Services.AddScoped<DepartmentValidatorFactory>();
+        builder.Services.AddScoped<IDepartmentValidatorFactory, DepartmentValidatorFactory>();
 
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI(); 
+            app.UseSwaggerUI();
         }
 
         // Configure the HTTP request pipeline.

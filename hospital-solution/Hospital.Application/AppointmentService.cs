@@ -1,9 +1,11 @@
-﻿namespace Hospital.Application;
+﻿using Hospital.Application.Factories;
 
-public class AppointmentService(AppointmentRepository appointmentRepository, DepartmentValidatorFactory departmentValidatorFactory)
+namespace Hospital.Application;
+
+public class AppointmentService(AppointmentRepository appointmentRepository, IDepartmentValidatorFactory departmentValidatorFactory)
 {
     private readonly AppointmentRepository _repository = appointmentRepository ?? throw new ArgumentNullException();
-    private readonly DepartmentValidatorFactory _validatorFactory = departmentValidatorFactory ?? throw new ArgumentNullException();
+    private readonly IDepartmentValidatorFactory _validatorFactory = departmentValidatorFactory ?? throw new ArgumentNullException();
 
     public async Task<bool> ScheduleAppointment(
         string cpr, string patientName, DateTime appointmentDate,
