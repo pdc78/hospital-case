@@ -1,11 +1,9 @@
 using Hospital.Application;
 using Hospital.Application.Factories;
-using Hospital.Application.Rules;
+using Hospital.Application.Rules.Configurations;
 using Hospital.WebApi.Configurations;
 using Hospital.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 internal class Program
 {
@@ -14,6 +12,10 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddSwaggerGen();
+
+        builder.Services.Configure<DepartmentRulesConfiguration>(
+            builder.Configuration.GetSection("DepartmentRules"));
+
         // Bind configuration section to a strongly-typed class
         builder.Services.Configure<DepartmentConfigurations>(
             builder.Configuration.GetSection("DepartmentConfigurations"));
@@ -21,13 +23,12 @@ internal class Program
         // Add services to the container.
         builder.Services.AddDbContext<AppointmentDbContext>(options =>
             options.UseInMemoryDatabase("HospitalDb"));
-     
+
 
         // Register validation rules via extension method
         builder.Services.AddValidationRules();
-
-        // Register the factory
         builder.Services.AddScoped<IDepartmentValidatorFactory, DepartmentValidatorFactory>();
+
         builder.Services.AddScoped<AppointmentRepository>();
         builder.Services.AddScoped<AppointmentService>();
 

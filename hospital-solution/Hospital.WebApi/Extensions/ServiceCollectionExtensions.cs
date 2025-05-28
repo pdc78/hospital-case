@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
             return new ReferralRule(config.ReferralDepartments);
         });
 
-        services.AddSingleton (provider =>
+        services.AddSingleton(provider =>
         {
             var config = provider.GetRequiredService<IOptions<DepartmentConfigurations>>().Value;
             return new InsuranceApprovalRule(config.InsuranceApprovalDepartments);
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
             return new FinancialApprovalRule(config.FinancialApprovalDepartments);
         });
 
-        services.AddSingleton<AssignedToGpRule>(); 
+        services.AddSingleton<AssignedToGpRule>();
 
         return services;
     }
