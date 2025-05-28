@@ -3,8 +3,9 @@ using Hospital.Application.Rules;
 using Hospital.Application.Validators.Interfaces;
 using Hospital.Application.Validators;
 using Microsoft.Extensions.DependencyInjection;
+using Hospital.Application.Factories;
 
-public class DepartmentValidatorFactory
+public class DepartmentValidatorFactory : IDepartmentValidatorFactory
 {
     private readonly Dictionary<string, IDepartmentValidator> _validators;
 
