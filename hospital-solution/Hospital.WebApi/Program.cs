@@ -1,7 +1,6 @@
 using Hospital.Application;
+using Hospital.Application.Configurations;
 using Hospital.Application.Factories;
-using Hospital.Application.Rules.Configurations;
-using Hospital.WebApi.Configurations;
 using Hospital.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +11,9 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddSwaggerGen();
-
-        builder.Services.Configure<DepartmentRulesConfiguration>(
-            builder.Configuration.GetSection("DepartmentRules"));
-
-        // Bind configuration section to a strongly-typed class
-        builder.Services.Configure<DepartmentConfigurations>(
-            builder.Configuration.GetSection("DepartmentConfigurations"));
+        // Add Configurations for department in the App Settings
+        builder.Services.Configure<DepartmentsConfiguration>(
+            builder.Configuration.GetSection("Departments"));
 
         // Add services to the container.
         builder.Services.AddDbContext<AppointmentDbContext>(options =>

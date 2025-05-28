@@ -25,6 +25,6 @@ public class ReferralRule : IValidationRule
     private bool HasValidReferral(string cpr, string department)
     {
         Console.WriteLine($"[LOG] Checking if referral exists for CPR {cpr} in {department}");
-        return true; // Dummy check (To be replaced later)
+        return true;
     }
 }

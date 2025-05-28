@@ -3,9 +3,9 @@ using Hospital.Application.Validators.Interfaces;
 using Hospital.Application.Validators;
 using Microsoft.Extensions.DependencyInjection;
 using Hospital.Application.Factories;
-using Hospital.Application.Rules.Configurations;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using Hospital.Application.Configurations;
 
 public class DepartmentValidatorFactory : IDepartmentValidatorFactory
 {
@@ -13,13 +13,12 @@ public class DepartmentValidatorFactory : IDepartmentValidatorFactory
 
     public DepartmentValidatorFactory(
         IServiceProvider provider,
-        IOptions<DepartmentRulesConfiguration> config)
+          IOptions<DepartmentsConfiguration> config)
     {
         var ruleMapping = config.Value;
-
         _validators = new Dictionary<string, IDepartmentValidator>(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var kvp in ruleMapping)
+        foreach (var kvp in ruleMapping.Rules)
         {
             var departmentName = kvp.Key;
             var ruleTypeNames = kvp.Value;
