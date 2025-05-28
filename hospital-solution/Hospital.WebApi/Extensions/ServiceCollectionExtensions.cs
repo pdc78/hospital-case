@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
             return new FinancialApprovalRule(config.FinancialApprovalDepartments);
         });
 
-        services.AddSingleton<IValidationRule, AssignedToGpRule>(); 
+        services.AddSingleton<AssignedToGpRule>(); 
 
         return services;
     }

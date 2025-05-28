@@ -21,17 +21,15 @@ internal class Program
         // Add services to the container.
         builder.Services.AddDbContext<AppointmentDbContext>(options =>
             options.UseInMemoryDatabase("HospitalDb"));
-        builder.Services.AddScoped<AppointmentRepository>();
-        builder.Services.AddScoped<AppointmentService>();
-
+     
 
         // Register validation rules via extension method
         builder.Services.AddValidationRules();
 
-        builder.Services.AddSingleton<AssignedToGpRule>();
-
         // Register the factory
         builder.Services.AddScoped<IDepartmentValidatorFactory, DepartmentValidatorFactory>();
+        builder.Services.AddScoped<AppointmentRepository>();
+        builder.Services.AddScoped<AppointmentService>();
 
         var app = builder.Build();
 
