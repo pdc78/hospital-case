@@ -16,16 +16,17 @@ public class NationalRegistryService
         var requestBody = new { cpr };
         var jsonContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync(CprValidationApiUrl, jsonContent);
-        if (response.IsSuccessStatusCode)
-        {
-            Console.WriteLine($"[LOG] CPR validation successful for {cpr}");
-            return true;
-        }
-        else
-        {
-            Console.WriteLine($"[LOG] CPR validation failed for {cpr}");
-            return false;
-        }
+        // var response = await client.PostAsync(CprValidationApiUrl, jsonContent);
+        // if (response.IsSuccessStatusCode)
+        // {
+        //     Console.WriteLine($"[LOG] CPR validation successful for {cpr}");
+        //     return true;
+        // }
+        // else
+        // {
+        //     Console.WriteLine($"[LOG] CPR validation failed for {cpr}");
+        //     return false;
+        // }
+        return true; // Dummy response (To be replaced later)
     }
 }
