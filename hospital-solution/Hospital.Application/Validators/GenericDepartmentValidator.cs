@@ -1,4 +1,5 @@
-﻿using Hospital.Application.Rules.Interfaces;
+﻿using Hospital.Application.Entities;
+using Hospital.Application.Rules.Interfaces;
 using Hospital.Application.Validators.Interfaces;
 
 namespace Hospital.Application.Validators
@@ -13,11 +14,12 @@ namespace Hospital.Application.Validators
             _department = department;
             _rules = rules;
         }
-        public async Task<(bool, string?)> ValidateAsync(string cpr, string doctorName)
+       
+        public async Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(AppointmentDto appointmentDto)
         {
-            foreach (var rule in _rules)
+              foreach (var rule in _rules)
             {
-                var (isValid, errorMessage) = await rule.ValidateAsync(cpr, _department);
+                var (isValid, errorMessage) = await rule.ValidateAsync(appointmentDto);
                 if (!isValid)
                     return (false, errorMessage);
             }

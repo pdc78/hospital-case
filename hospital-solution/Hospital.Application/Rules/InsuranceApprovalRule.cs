@@ -1,4 +1,5 @@
-﻿using Hospital.Application.Rules.Interfaces;
+﻿using Hospital.Application.Entities;
+using Hospital.Application.Rules.Interfaces;
 
 namespace Hospital.Application.Rules;
 public class InsuranceApprovalRule : IValidationRule
@@ -10,13 +11,19 @@ public class InsuranceApprovalRule : IValidationRule
         _departments = departments;
     }
 
-    public Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(string cpr, string department)
-    { 
-        var hasInsuranceApproval = RequiresInsuranceApproval(department) && HasValidInsuranceApproval(cpr, department);
+    public async Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(AppointmentDto appointmentDto)
+    {
+        if (appointmentDto == null)
+        {
+            throw new ArgumentNullException(nameof(appointmentDto));
+        }
 
-        return Task.FromResult<(bool, string?)>(
-            hasInsuranceApproval ? (true, null) : (false, $"{department} requires a insurance approval."));
+        var hasInsuranceApproval = RequiresInsuranceApproval(appointmentDto.Department) && HasValidInsuranceApproval(appointmentDto.Cpr,appointmentDto.Department);
+
+        return await Task.FromResult<(bool, string?)>(
+            hasInsuranceApproval ? (true, null) : (false, $"{appointmentDto.Department} requires a insurance approval."));
     }
+  
 
     private bool HasValidInsuranceApproval(string cpr, string department)
     {

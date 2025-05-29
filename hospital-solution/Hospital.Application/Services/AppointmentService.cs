@@ -40,7 +40,10 @@ public class AppointmentService(AppointmentRepository appointmentRepository, IDe
             return false;
         }
 
-        var (isValid, errorMessage) = await validator.ValidateAsync(cpr, doctorName);
+        var (isValid, errorMessage) = await validator.ValidateAsync(
+            new AppointmentDto(cpr, patientName, appointmentDate, department, doctorName)
+        );
+        
         if (!isValid)
         {
             _logger.LogError($"[ERROR] {errorMessage}");

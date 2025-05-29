@@ -1,4 +1,5 @@
-﻿using Hospital.Application.Rules.Interfaces;
+﻿using Hospital.Application.Entities;
+using Hospital.Application.Rules.Interfaces;
 
 namespace Hospital.Application.Rules;
 public class ReferralRule : IValidationRule
@@ -9,13 +10,19 @@ public class ReferralRule : IValidationRule
         _departments = departments;
     }
 
-    public Task<(bool, string?)> ValidateAsync(string cpr, string department)
+    public Task<(bool, string?)> ValidateAsync(AppointmentDto appointmentDto)
     {
-        bool hasReferral = RequiresReferral(department) && HasValidReferral(cpr, department);
+        if (appointmentDto == null)
+        {
+            throw new ArgumentNullException(nameof(appointmentDto));
+        }
+
+        bool hasReferral = RequiresReferral(appointmentDto.Department) && HasValidReferral(appointmentDto.Cpr, appointmentDto.Department);
 
         return Task.FromResult<(bool, string?)>(
-            hasReferral ? (true, null) : (false, $"{department} requires a valid referral."));
+            hasReferral ? (true, null) : (false, $"{appointmentDto.Department} requires a valid referral."));
     }
+      
     
     private bool RequiresReferral(string department)
     {
