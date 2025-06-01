@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Hospital.Application.Factories;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using Hospital.Application.Configurations;
+using Hospital.Application.DepartmentsConfiguration;
 
 public class DepartmentValidatorFactory : IDepartmentValidatorFactory
 {
@@ -13,9 +13,9 @@ public class DepartmentValidatorFactory : IDepartmentValidatorFactory
 
     public DepartmentValidatorFactory(
         IServiceProvider provider,
-          IOptions<DepartmentsConfiguration> config)
+          IOptionsMonitor<DepartmentsConfiguration> config)
     {
-        var ruleMapping = config.Value;
+        var ruleMapping = config.CurrentValue;
         _validators = new Dictionary<string, IDepartmentValidator>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var kvp in ruleMapping.Rules)

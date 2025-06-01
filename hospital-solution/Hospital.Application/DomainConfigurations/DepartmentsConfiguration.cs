@@ -1,4 +1,4 @@
-﻿namespace Hospital.Application.Configurations;
+﻿namespace Hospital.Application.DepartmentsConfiguration;
 public class DepartmentsConfiguration
 {
     public Dictionary<string, List<string>> Rules { get; set; } = new();

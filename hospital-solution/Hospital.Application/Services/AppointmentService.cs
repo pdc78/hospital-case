@@ -6,10 +6,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Hospital.Application.Services;
 
-public class AppointmentService(AppointmentRepository appointmentRepository, IDepartmentValidatorFactory departmentValidatorFactory, ILogger<AppointmentService> logger) : IAppointmentService
+public class AppointmentService(AppointmentRepository appointmentRepository,
+ IDepartmentValidatorFactory departmentValidatorFactory,
+ INationalRegistryService nationalRegistryService,
+  ILogger<AppointmentService> logger) : IAppointmentService
 {
     private readonly AppointmentRepository _repository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
     private readonly IDepartmentValidatorFactory _validatorFactory = departmentValidatorFactory ?? throw new ArgumentNullException(nameof(departmentValidatorFactory));
+    private readonly INationalRegistryService _nationalRegistryService = nationalRegistryService ?? throw new ArgumentNullException(nameof(nationalRegistryService));
     private readonly ILogger<AppointmentService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public async Task<bool> ScheduleAppointment(
@@ -24,7 +28,7 @@ public class AppointmentService(AppointmentRepository appointmentRepository, IDe
         }
 
         // Validate CPR before scheduling
-        if (!await new NationalRegistryService().ValidateCpr(cpr))
+        if (!await _nationalRegistryService.ValidateCpr(cpr))
         {
             _logger.LogError("Invalid CPR number. Cannot schedule appointment.");
             return false;
@@ -39,6 +43,7 @@ public class AppointmentService(AppointmentRepository appointmentRepository, IDe
             _logger.LogError($"Unsupported department: {department}");
             return false;
         }
+
 
         var (isValid, errorMessage) = await validator.ValidateAsync(
             new AppointmentDto(cpr, patientName, appointmentDate, department, doctorName)
@@ -62,6 +67,7 @@ public class AppointmentService(AppointmentRepository appointmentRepository, IDe
         _logger.LogInformation($"Appointment successfully scheduled for {patientName} (CPR: {cpr})");
         return true;
     }
+    
     private static bool IsValidRequest(string cpr, string department, string doctorName, DateTime appointmentDate)
     {
         return !string.IsNullOrEmpty(cpr)

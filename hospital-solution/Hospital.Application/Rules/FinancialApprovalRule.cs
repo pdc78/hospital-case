@@ -10,16 +10,16 @@ namespace Hospital.Application.Rules
         {
             _departments = departments;
         }
-        public Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(AppointmentDto appointmentDto)
+
+        public async Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(AppointmentDto appointmentDto)
         {
             if (appointmentDto == null)
             {
                 throw new ArgumentNullException(nameof(appointmentDto));
             }
             var hasFinancialApproval = RequiresFinancialApproval(appointmentDto.Department) && HasValidFinancialApproval(appointmentDto.Cpr, appointmentDto.Department);
-            return Task.FromResult(hasFinancialApproval ? (true, (string?)null) : (false, $"{appointmentDto.Department} requires a financial approval."));
+            return await Task.FromResult(hasFinancialApproval ? (true, (string?)null) : (false, $"{appointmentDto.Department} requires a financial approval."));
         }
-
 
         private bool HasValidFinancialApproval(string cpr, string department)
         {

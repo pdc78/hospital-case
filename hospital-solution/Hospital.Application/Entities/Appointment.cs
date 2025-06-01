@@ -1,16 +1,18 @@
-﻿namespace Hospital.Application.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital.Application.Entities;
 
 public class Appointment
 {
     public int Id { get; set; }
-
-    public string Cpr { get; set; }
-
-    public string PatientName { get; set; }
-
-    public DateTime AppointmentDate { get; set; }
-
-    public string Department { get; set; }
-
-    public string DoctorName { get; set; }
+    [Required]
+    public required string Cpr { get; set; }
+    [Required]
+    public required string PatientName { get; set; }
+    [Required]
+    public required DateTime AppointmentDate { get; set; }
+    [Required]
+    public required string Department { get; set; }
+    [Required]
+    public required string DoctorName { get; set; }
 }

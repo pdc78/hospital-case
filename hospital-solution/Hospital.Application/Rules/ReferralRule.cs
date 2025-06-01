@@ -2,6 +2,7 @@
 using Hospital.Application.Rules.Interfaces;
 
 namespace Hospital.Application.Rules;
+
 public class ReferralRule : IValidationRule
 {
     private readonly IEnumerable<string> _departments;
@@ -23,12 +24,11 @@ public class ReferralRule : IValidationRule
             hasReferral ? (true, null) : (false, $"{appointmentDto.Department} requires a valid referral."));
     }
       
-    
     private bool RequiresReferral(string department)
     {
-        return _departments.Any(a=>a.Equals(department));
+        return _departments.Any(a => a.Equals(department));
     }
-    
+
     private bool HasValidReferral(string cpr, string department)
     {
         Console.WriteLine($"[LOG] Checking if referral exists for CPR {cpr} in {department}");

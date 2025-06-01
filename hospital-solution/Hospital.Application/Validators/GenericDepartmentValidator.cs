@@ -14,10 +14,11 @@ namespace Hospital.Application.Validators
             _department = department;
             _rules = rules;
         }
-       
+
+
         public async Task<(bool IsValid, string? ErrorMessage)> ValidateAsync(AppointmentDto appointmentDto)
         {
-              foreach (var rule in _rules)
+            foreach (var rule in _rules)
             {
                 var (isValid, errorMessage) = await rule.ValidateAsync(appointmentDto);
                 if (!isValid)

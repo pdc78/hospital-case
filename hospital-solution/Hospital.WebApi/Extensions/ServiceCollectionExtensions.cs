@@ -1,4 +1,4 @@
-﻿using Hospital.Application.Configurations;
+﻿using Hospital.Application.DepartmentsConfiguration;
 using Hospital.Application.Rules;
 using Microsoft.Extensions.Options;
 
@@ -10,20 +10,20 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton(provider =>
         {
-            var config = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
-            return new ReferralRule(config.ReferralDepartments);
+            var departmentsConfiguration = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
+            return new ReferralRule(departmentsConfiguration.ReferralDepartments);
         });
 
         services.AddSingleton(provider =>
         {
-            var config = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
-            return new InsuranceApprovalRule(config.InsuranceApprovalDepartments);
+            var departmentsConfiguration = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
+            return new InsuranceApprovalRule(departmentsConfiguration.InsuranceApprovalDepartments);
         });
 
         services.AddSingleton(provider =>
         {
-            var config = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
-            return new FinancialApprovalRule(config.FinancialApprovalDepartments);
+            var departmentsConfiguration = provider.GetRequiredService<IOptions<DepartmentsConfiguration>>().Value;
+            return new FinancialApprovalRule(departmentsConfiguration.FinancialApprovalDepartments);
         });
 
         services.AddSingleton<AssignedToGpRule>();

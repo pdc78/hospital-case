@@ -1,4 +1,4 @@
-using Hospital.Application.Configurations;
+
 using Hospital.Application.Factories;
 using Hospital.Application.Repositories;
 using Hospital.Application.Services;
@@ -7,6 +7,7 @@ using Hospital.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Hospital.Application.Data;
+using Hospital.Application.DepartmentsConfiguration;
 
 internal class Program
 {
@@ -25,19 +26,23 @@ internal class Program
             });
         });
 
+        // Add Configurations for National Registry in the App Settings
+        builder.Services.Configure<NationalRegistryConfiguration>(
+            builder.Configuration.GetSection("NationalRegistry"));
+
         // Add Configurations for department in the App Settings
         builder.Services.Configure<DepartmentsConfiguration>(
             builder.Configuration.GetSection("Departments"));
 
-        // Add services to the container.
+        // Add Dependency Injection for DbContext
+        // Using InMemory database for simplicity, replace with actual database in production
         builder.Services.AddDbContext<AppointmentDbContext>(options =>
             options.UseInMemoryDatabase("HospitalDb"));
 
 
         // Register validation rules via extension method
         builder.Services.AddValidationRules();
-        builder.Services.AddScoped<IDepartmentValidatorFactory, DepartmentValidatorFactory>();
-
+        builder.Services.AddHttpClient<INationalRegistryService, NationalRegistryService>();
         builder.Services.AddScoped<IAppointmentService, AppointmentService>();
         builder.Services.AddScoped<AppointmentRepository>();
 
@@ -53,7 +58,7 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.MapPost("/appointments", async ([FromBody] AppointmentRequest request, [FromServices] IAppointmentService appointmentService) =>
-{
+        {
             var result = await appointmentService.ScheduleAppointment(
                 request.Cpr, request.PatientName, request.AppointmentDate,
                 request.Department, request.DoctorName);

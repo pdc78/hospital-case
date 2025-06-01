@@ -7,7 +7,7 @@ Accept: application/json
 {
     "Cpr": "123456-7890",
     "PatientName": "John Doe",
-    "AppointmentDate": "2025-05-29T10:00:00",
+    "AppointmentDate": "2026-05-29T10:00:00",
     "Department": "Physiotherapy",
     "DoctorName": "Dr. Smith"
 }
